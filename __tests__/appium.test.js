@@ -18,7 +18,8 @@ beforeAll(async () => {
   await driver.sleep(2000); // wait for app to load
 });
 
-test('appium renders', async () => {
-  expect(await driver.hasElementByAccessibilityId('testview')).toBe(true);
-  await driver.elementByAccessibilityId('alertButton').click();
-});
+test('view welcome y click boton', async () => {
+  expect(await driver.hasElementByAccessibilityId('welcome')).toBe(true);
+  await driver.elementByAccessibilityId('hello_button').click();
+}); 
+

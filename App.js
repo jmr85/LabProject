@@ -1,118 +1,121 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, {Fragment} from 'react';
+import React, { Component } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
   View,
-  Text,
-  StatusBar,
-  Button,
+  ScrollView,
+  StyleSheet,
+  Modal
 } from 'react-native';
+import { Button, Input, Text } from 'react-native-elements';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
+class example extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      greeting: undefined,
+      modalVisible: false,
+    };
+  }
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+  render() {
+    if (this.state.greeting) return this.renderAfterButton();
+    return (
+      <View accessibilityLabel="welcome" style={{flex: 1, paddingTop: 20, justifyContent: 'center', alignItems: 'center'}}>
+          <Text h1>Welcome</Text>
+          <Modal 
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              alert('Modal has been closed.');
+            }}>
+            <View testID="view_modal_id" style={styles.modal}>
+              <View>
+                <Text h1>Modal</Text>
+                
+                <Button title="Hide Modal" testID="button_hide_id"
+                  onPress={() => {
+                    this.setModalVisible(!this.state.modalVisible);
+                  }}>
+                  <Text>Hide Modal</Text>
+                </Button>
+              </View>
             </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Editt <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View accessibilityLabel="testview" style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}></Text>
-             <Button accessibilityLabel='alertButton' title="Click" 
-                onPress={() => 
-                  <Text>Sample</Text>
-              }>           
-             </Button>                          
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
+          </Modal>
+          <Button title="Show Modal" testID="button_modal_id"
+            onPress={() => {
+              this.setModalVisible(true);
+            }}>
+            <Text>Show Modal</Text>
+          </Button>
+          
+          <Input placeholder='TEXT INPUT' testID="mytextinput"/>
 
+          <ScrollView accessibilityLabel="scroll" style={styles.scrollView}>
+            <Text style={styles.text}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+            </Text>
+          </ScrollView>
+          <Button title="Say Hello" accessibilityLabel="hello_button" onPress={this.onButtonPress.bind(this, 'Hello')}/>
+          
+          <Button title="Say World" testID='world_button' onPress={this.onButtonPress.bind(this, 'World')}/>
+               
+          <Button title="Say Goodbye" testID='goodbye_button' onPress={this.onButtonPress.bind(this, 'Goodbye, World')}/>
+         
+      </View>
+    );
+  }
+  renderAfterButton() {
+    return (
+      <View style={{flex: 1, paddingTop: 20, justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={{fontSize: 25}}>
+          {this.state.greeting}!!!
+        </Text>
+      </View>
+    );
+  }
+  onButtonPress(greeting) {
+    this.setState({
+      greeting: greeting
+    });
+  }
+}
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: Colors.lighter,
+    backgroundColor: 'brown',
+    marginHorizontal: 20,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  text: {
+    fontSize: 42,
   },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
+  modal: {  
+    justifyContent: 'center',  
+    alignItems: 'center',   
+    backgroundColor : "#00BCD4",   
+    height: 300 ,  
+    width: '80%',  
+    borderRadius:10,  
+    borderWidth: 1,  
+    borderColor: '#fff',    
+    marginTop: 80,  
+    marginLeft: 40,  
+     
+    },
 });
 
-export default App;
+export default example;

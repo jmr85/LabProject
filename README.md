@@ -1,0 +1,1 @@
+## Testing for React Native Android using Jest, wd client and Appium server
